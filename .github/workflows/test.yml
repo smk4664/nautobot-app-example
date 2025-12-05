@@ -22,7 +22,7 @@ jobs:
         id: "get_pr_body" # Added ID for referencing the output
         run: |
           # Capture the output of the gh command into a shell variable
-          PR_BODY=$(gh release view -R nautobot/cookiecutter-nautobot-app --json body --jq .body ${{ inputs.tag }} | sed '/^## Contributors/,$d')
+          PR_BODY=$(gh release view -R nautobot/cookiecutter-nautobot-app --json body --jq .body ${{ inputs.tag }} | sed '/^#\{1,3\} Contributors/,$d')
           
           # Use the GITHUB_OUTPUT multi-line syntax to set the result
           # This value is now available as steps.get_pr_body.outputs.pr_body
