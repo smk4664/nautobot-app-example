@@ -17,7 +17,7 @@ jobs:
       - name: "Check that the requested tag exists"
         run: "gh release view -R nautobot/cookiecutter-nautobot-app ${{ inputs.tag }}"
         env:
-          GH_TOKEN: "${{ secrets.GH_NAUTOBOT_BOT_TOKEN }}"
+          GH_TOKEN: "${{ secrets.GH_TESTING_TOKEN }}"
       - name: "Capture PR Body as Job Output"
         id: "get_pr_body" # Added ID for referencing the output
         run: |
@@ -30,7 +30,7 @@ jobs:
           echo "$PR_BODY" >> $GITHUB_OUTPUT
           echo "EOF_BODY" >> $GITHUB_OUTPUT
         env:
-          GH_TOKEN: "${{ secrets.GH_NAUTOBOT_BOT_TOKEN }}"
+          GH_TOKEN: "${{ secrets.GH_TESTING_TOKEN }}"
 
   show_pr_body:
     needs: "check_tag"
