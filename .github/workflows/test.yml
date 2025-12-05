@@ -1,0 +1,42 @@
+---
+name: "Testing Workflow"
+on:  # yamllint disable-line rule:truthy
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to rebake from. Should start with nautobot-app-v"
+        required: true
+        type: "string"
+
+jobs:
+  check_tag:
+    runs-on: "ubuntu-latest"
+    outputs:
+      pr_body: ${{ steps.get_pr_body.outputs.pr_body }}
+    steps:
+      - name: "Check that the requested tag exists"
+        run: "gh release view -R nautobot/cookiecutter-nautobot-app ${{ inputs.tag }}"
+        env:
+          GH_TOKEN: "${{ secrets.GH_NAUTOBOT_BOT_TOKEN }}"
+      - name: "Capture PR Body as Job Output"
+        id: "get_pr_body" # Added ID for referencing the output
+        run: |
+          # Capture the output of the gh command into a shell variable
+          PR_BODY=$(gh release view -R nautobot/cookiecutter-nautobot-app --json body --jq .body ${{ inputs.tag }} | sed '/^## Contributors/,$d')
+          
+          # Use the GITHUB_OUTPUT multi-line syntax to set the result
+          # This value is now available as steps.get_pr_body.outputs.pr_body
+          echo "pr_body<<EOF_BODY" >> $GITHUB_OUTPUT
+          echo "$PR_BODY" >> $GITHUB_OUTPUT
+          echo "EOF_BODY" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: "${{ secrets.GH_NAUTOBOT_BOT_TOKEN }}"
+
+  show_pr_body:
+    needs: "check_tag"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Show PR Body Output"
+        run: |
+          echo "The PR Body is:"
+          echo "${{ needs.check_tag.outputs.pr_body }}"
