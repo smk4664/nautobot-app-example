@@ -1,0 +1,31 @@
+{
+    "cookiecutter": {
+        "codeowner_github_usernames": "@smk4664",
+        "full_name": "Network to Code, LLC",
+        "email": "info@networktocode.com",
+        "github_org": "smk4664",
+        "app_name": "example",
+        "verbose_name": "Example",
+        "app_slug": "example",
+        "project_slug": "nautobot-app-example",
+        "repo_url": "https://github.com/smk4664/nautobot-app-example",
+        "base_url": "example",
+        "camel_name": "Example",
+        "project_short_description": "Example",
+        "model_class_name": "ExampleExampleModel",
+        "open_source_license": "Apache-2.0",
+        "docs_base_url": "https://docs.nautobot.com",
+        "docs_app_url": "https://docs.nautobot.com/projects/example/en/latest",
+        "_drift_manager": {
+            "template": "https://github.com/nautobot/cookiecutter-nautobot-app.git",
+            "template_dir": "nautobot-app",
+            "template_ref": "refs/tags/nautobot-app-v2.7.0",
+            "cookie_dir": "",
+            "pull_request_strategy": "create",
+            "post_actions": [],
+            "draft": false,
+            "baked_commit_ref": "",
+            "drift_managed_branch": "develop"
+        }
+    }
+}
